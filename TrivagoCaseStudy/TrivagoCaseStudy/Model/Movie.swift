@@ -27,8 +27,8 @@ struct Movie {
             movie.title = title
         }
         
-        if let releaseDate = dictionary[Constants.MovieAttributes.releaseDate.rawValue] as? String {
-            movie.releaseDate = releaseDate
+        if let releaseDate = dictionary[Constants.MovieAttributes.releaseDate.rawValue] as? NSNumber {
+            movie.releaseDate = releaseDate.stringValue
         }
         
         if let tagline = dictionary[Constants.MovieAttributes.tagline.rawValue] as? String {

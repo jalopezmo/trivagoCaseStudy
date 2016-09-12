@@ -28,7 +28,7 @@ struct Constants {
         case title = "title"
         case tagline = "tagline"
         case overview = "overview"
-        case releaseDate = "released"
+        case releaseDate = "year"
         case runtime = "runtime"
         case trailerURL = "trailer"
         case rating = "rating"
