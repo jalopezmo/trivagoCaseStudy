@@ -9,7 +9,7 @@
 import UIKit
 import PKHUD
 
-class MovieViewController: UIViewController, UITableViewDelegate {
+class MovieViewController: UIViewController, UITableViewDelegate, UISearchBarDelegate {
     
     enum ServiceType : Int {
         case Popular
@@ -19,9 +19,13 @@ class MovieViewController: UIViewController, UITableViewDelegate {
     var page:Int = 1
     var dataSource = MovieTableViewDataSource()
     var debounce = false
+    var serviceType:ServiceType = .Popular
+    var lastSearchedString = ""
+    var noMoreAvailable = false
     
     @IBOutlet weak var movieTableView : UITableView!
-
+    @IBOutlet weak var searchBar : UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,39 +35,43 @@ class MovieViewController: UIViewController, UITableViewDelegate {
         
         loadMoreMovies()
     }
-
-    func scrollDown() {
-        loadMoreMovies()
-    }
     
     func loadMoreMovies() {
-        HUD.show(.Progress)
         
-        Networking.getRequest(MovieAPI.buildPopularRequestURL(page), headers: MovieAPI.generateHeaders(), completion: {
-            error, responseObject in
+        if(noMoreAvailable) {
+            return
+        }
+        
+        var url:String?
+        
+        if(serviceType == .Popular) {
+            url = MovieAPI.buildPopularRequestURL(page)
+        }
+        else {
+            url = MovieAPI.buildSearchRequestURL(page, text: lastSearchedString)
+        }
+        
+        if let requestURL = url {
+            print(requestURL)
+            HUD.show(.Progress)
             
-            HUD.hide()
-            
-            if(!error) {
-                if let responseObject = responseObject as? [[String:AnyObject]] {
-                    self.dataSource.movies.appendContentsOf(self.processResponseObject(.Popular, responseObject: responseObject))
-                    self.page += 1
-                    self.movieTableView.reloadData()
-                }
-            }
-        })
-    }
-    
-    func searchMovies(text:String) {
-        if let url = MovieAPI.buildSearchRequestURL(page, text: text) {
-            Networking.getRequest(url, headers: MovieAPI.generateHeaders(), completion: {
+            Networking.getRequest(requestURL, headers: MovieAPI.generateHeaders(), completion: {
                 error, responseObject in
+                
+                HUD.hide()
                 
                 if(!error) {
                     if let responseObject = responseObject as? [[String:AnyObject]] {
-                        let movies = self.processResponseObject(.Search, responseObject: responseObject)
-                        
+                        self.dataSource.movies.appendContentsOf(self.processResponseObject(self.serviceType, responseObject: responseObject))
                         self.page += 1
+                        self.movieTableView.reloadData()
+                        
+                        if(responseObject.count < 10) {
+                            self.noMoreAvailable = true
+                        }
+                        else {
+                            self.noMoreAvailable = false
+                        }
                     }
                 }
             })
@@ -91,9 +99,8 @@ class MovieViewController: UIViewController, UITableViewDelegate {
         return movies
     }
     
-    //Search view activated
-    @IBAction func searchButtonTapped() {
-        print("Search")
+    @IBAction func searchButtonClicked() {
+        self.searchBar.becomeFirstResponder()
     }
     
     //TableView delegate
@@ -105,8 +112,20 @@ class MovieViewController: UIViewController, UITableViewDelegate {
         //handle open trailer here (in case there is one)
         
         if let trailerURL = dataSource.getTrailerUrlForMovie(indexPath.row) {
-            UIApplication.sharedApplication().openURL(NSURL(string: trailerURL)!)
+            if let validURL = NSURL(string: trailerURL) {
+                UIApplication.sharedApplication().openURL(validURL)
+                return
+            }
         }
+        
+        let alertViewController = UIAlertController(title: "We're sorry!", message: "There is no trailer for this movie :(", preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .Default) { _ in }
+        
+        alertViewController.addAction(okAction)
+        
+        presentViewController(alertViewController, animated: true, completion: nil)
+        
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -121,9 +140,52 @@ class MovieViewController: UIViewController, UITableViewDelegate {
                     })
                 })
                 
+                print("reached bottom")
                 loadMoreMovies()
             }
         }
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
+    
+    //Search bar delegate
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        //Check if search string is empty
+        if(searchText.isEmpty || searchText == " ") {
+            searchBar.text = ""
+            serviceType = .Popular
+            
+            if(lastSearchedString != "") {
+                movieTableView.setContentOffset(CGPointZero, animated: false);
+                Networking.cancelAllRequests()
+                noMoreAvailable = false
+                dataSource.clearDataSourceArray()
+                movieTableView.reloadData()
+                page = 1
+                loadMoreMovies()
+            }
+            
+            lastSearchedString = ""
+            return
+        }
+        
+        Networking.cancelAllRequests()
+        
+        movieTableView.setContentOffset(CGPointZero, animated: false);
+        noMoreAvailable = false
+        dataSource.clearDataSourceArray()
+        serviceType = .Search
+        page = 1
+        lastSearchedString = searchText
+        movieTableView.reloadData()
+        loadMoreMovies()
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 

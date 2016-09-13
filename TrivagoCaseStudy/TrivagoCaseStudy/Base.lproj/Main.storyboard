@@ -25,19 +25,29 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="Flixy" id="tSk-JD-jRu">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="odl-RN-TSS">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="6DU-Ph-Zio">
                                             <connections>
-                                                <action selector="searchButtonTapped" destination="BYZ-38-t0r" id="GE9-ye-xL6"/>
+                                                <action selector="searchButtonClicked" destination="BYZ-38-t0r" id="UGW-qi-sPa"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="JdB-yw-w97">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="f6F-PE-KsZ"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="XkG-cG-xES"/>
+                                </connections>
+                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="148" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8rO-VX-sTw">
-                                <rect key="frame" x="0.0" y="69" width="600" height="531"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" id="Uxy-aG-EXg" customClass="MovieCell" customModule="Flixy" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="Uxy-aG-EXg" customClass="MovieCell" customModule="Flixy" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uxy-aG-EXg" id="Wmk-yF-pUm">
@@ -54,13 +64,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Batman: The Dark Knight Rises (2012)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Akx-8h-11m">
                                                     <rect key="frame" x="106" y="0.0" width="486" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are really happy you came here, we were actually talking about you, mister." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhj-1V-yvs">
                                                     <rect key="frame" x="106" y="29" width="486" height="110"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -88,18 +98,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8rO-VX-sTw" firstAttribute="top" secondItem="m05-9x-dbc" secondAttribute="bottom" constant="5" id="TVO-Ag-0EK"/>
                             <constraint firstItem="m05-9x-dbc" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="Yfu-A5-xdj"/>
                             <constraint firstItem="m05-9x-dbc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bz3-i2-45k"/>
+                            <constraint firstAttribute="trailing" secondItem="JdB-yw-w97" secondAttribute="trailing" id="eOU-Ne-auD"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8rO-VX-sTw" secondAttribute="bottom" id="hEe-hM-JcF"/>
+                            <constraint firstItem="8rO-VX-sTw" firstAttribute="top" secondItem="JdB-yw-w97" secondAttribute="bottom" id="jvB-xF-gtO"/>
+                            <constraint firstItem="JdB-yw-w97" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="oWW-fX-Utz"/>
                             <constraint firstItem="8rO-VX-sTw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pPa-18-94O"/>
                             <constraint firstAttribute="trailing" secondItem="m05-9x-dbc" secondAttribute="trailing" id="rMw-Gi-sxh"/>
                             <constraint firstAttribute="trailing" secondItem="8rO-VX-sTw" secondAttribute="trailing" id="wSb-eF-d4u"/>
+                            <constraint firstItem="JdB-yw-w97" firstAttribute="top" secondItem="m05-9x-dbc" secondAttribute="bottom" id="wql-UU-58h"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="movieTableView" destination="8rO-VX-sTw" id="pHt-Tp-Mg8"/>
+                        <outlet property="searchBar" destination="JdB-yw-w97" id="zwB-pU-viK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

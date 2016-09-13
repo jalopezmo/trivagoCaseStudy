@@ -15,6 +15,10 @@ class MovieTableViewDataSource:NSObject {
     func getTrailerUrlForMovie(row:Int) -> String? {
         return movies[row].trailerURL
     }
+    
+    func clearDataSourceArray() {
+        movies = [Movie]()
+    }
 }
 extension MovieTableViewDataSource:UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,6 +52,11 @@ extension MovieTableViewDataSource:UITableViewDataSource {
         if let thumbnail = movies[indexPath.row].thumbnailURL {
             if let thumbnailURL = NSURL(string: thumbnail), let placeholder = UIImage(named: "placeholder") {
                 movieCell.thumbnailImage.af_setImageWithURL(thumbnailURL, placeholderImage: placeholder)
+            }
+        }
+        else {
+            if let placeholder = UIImage(named: "placeholder") {
+                movieCell.thumbnailImage.image = placeholder
             }
         }
         

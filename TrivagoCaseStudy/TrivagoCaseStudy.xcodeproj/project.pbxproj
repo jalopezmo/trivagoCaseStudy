@@ -165,6 +165,7 @@
 				TargetAttributes = {
 					6F1B87141D844B0000814268 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 9PDZ98885J;
 					};
 				};
 			};
@@ -373,11 +374,14 @@
 			baseConfigurationReference = 1EE1658E5402AA1AF27F9E7C /* Pods-TrivagoCaseStudy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TrivagoCaseStudy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaimelopez.TrivagoCaseStudy;
 				PRODUCT_NAME = Flixy;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -386,11 +390,14 @@
 			baseConfigurationReference = D740C99170FF77544939246C /* Pods-TrivagoCaseStudy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TrivagoCaseStudy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaimelopez.TrivagoCaseStudy;
 				PRODUCT_NAME = Flixy;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
