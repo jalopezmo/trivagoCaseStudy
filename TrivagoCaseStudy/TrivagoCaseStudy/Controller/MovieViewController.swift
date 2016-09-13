@@ -119,13 +119,10 @@ class MovieViewController: UIViewController, UITableViewDelegate, UISearchBarDel
         }
         
         let alertViewController = UIAlertController(title: "We're sorry!", message: "There is no trailer for this movie :(", preferredStyle: .Alert)
-        
         let okAction = UIAlertAction(title: "OK", style: .Default) { _ in }
         
         alertViewController.addAction(okAction)
-        
         presentViewController(alertViewController, animated: true, completion: nil)
-        
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -159,27 +156,24 @@ class MovieViewController: UIViewController, UITableViewDelegate, UISearchBarDel
             serviceType = .Popular
             
             if(lastSearchedString != "") {
-                movieTableView.setContentOffset(CGPointZero, animated: false);
-                Networking.cancelAllRequests()
-                noMoreAvailable = false
-                dataSource.clearDataSourceArray()
-                movieTableView.reloadData()
-                page = 1
-                loadMoreMovies()
+                resetMovieList()
             }
             
             lastSearchedString = ""
             return
         }
         
+        serviceType = .Search
+        lastSearchedString = searchText
+        resetMovieList()
+    }
+    
+    func resetMovieList() {
         Networking.cancelAllRequests()
-        
         movieTableView.setContentOffset(CGPointZero, animated: false);
         noMoreAvailable = false
         dataSource.clearDataSourceArray()
-        serviceType = .Search
         page = 1
-        lastSearchedString = searchText
         movieTableView.reloadData()
         loadMoreMovies()
     }
