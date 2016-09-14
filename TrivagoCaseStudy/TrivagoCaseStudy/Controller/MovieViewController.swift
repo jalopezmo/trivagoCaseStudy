@@ -52,7 +52,6 @@ class MovieViewController: UIViewController, UITableViewDelegate, UISearchBarDel
         }
         
         if let requestURL = url {
-            print(requestURL)
             HUD.show(.Progress)
             
             Networking.getRequest(requestURL, headers: MovieAPI.generateHeaders(), completion: {
@@ -137,7 +136,6 @@ class MovieViewController: UIViewController, UITableViewDelegate, UISearchBarDel
                     })
                 })
                 
-                print("reached bottom")
                 loadMoreMovies()
             }
         }
